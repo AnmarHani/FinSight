@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".insights"
+    android:background="@drawable/background"
+
+    >
+
+<LinearLayout
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+
+
+        >
+
+        <ImageView
+            android:id="@+id/logoimage"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/logoimage" />
+
+        <TextView
+            android:id="@+id/wordmark"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="7dp"
+            android:text="@string/wordmark_string"
+            android:textColor="@color/wordmark_color"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="210sp"
+            android:id="@+id/profileBtn"
+            android:background="@drawable/account_icon"
+            android:src="@drawable/account_icon" />
+    </LinearLayout>
+
+.
+
+
+
+
+
+</LinearLayout>
+
+
+
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    android:layout_marginBottom="30dp"
+    android:layout_marginHorizontal="20dp"
+    app:cardCornerRadius="11dp"
+    >
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottomNavigationView"
+        android:background="@color/btmBar"
+        app:menu="@menu/bottom_menu"
+        app:itemIconTint="@drawable/item_selector"
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconSize="30dp"
+        app:itemRippleColor="@android:color/transparent"
+
+        >
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+</androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

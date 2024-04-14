@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="wordmark_color">#F5F5F5</color>
+    <color name="btn">#2C14DD</color>
+    <color name="btmBar">#2B2D30</color>
+    <color name="yellow">#FCCF32</color>
+
 </resources>

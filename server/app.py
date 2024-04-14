@@ -277,10 +277,9 @@ def generate_gemini_finance_advice():
     prompt_text = data.get("prompt_text")
 
     if any(keyword in prompt_text.lower() for keyword in finance_keywords):
-        # API key for the Gemini model
-        api_key = "AIzaSyAyA2yr5nQv2QAdI1c6W1SMKyHZsYD3sxo"  # Replace with your actual API key
 
-        # Generate content using Gemini API
+        # Generate content using Gemini AP        # API key for the Gemini model
+        #         api_key = "AIzaSyAyA2yr5nQv2QAdI1c6W1SMKyHZsYD3sxo"  # Replace with your actual API keyI
         generated_text = generate_gemini_content(prompt_text, api_key)
 
         if generated_text:

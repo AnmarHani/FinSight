@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.INTERNET" />
+    xmlns:tools="http://schemas.android.com/tools" >
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -10,11 +10,38 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.FinSight"
-        tools:targetApi="31">
+        android:theme="@style/Theme.Assigment"
+        tools:targetApi="31" >
+        <activity
+            android:name=".budget"
+            android:exported="false" />
+        <activity
+            android:name=".creat_budget_2"
+            android:exported="false" />
+        <activity
+            android:name=".editProfile"
+            android:exported="false" />
+        <activity
+            android:name=".insights"
+            android:exported="false" />
+        <activity
+            android:name=".transactions"
+            android:exported="false" />
+        <activity
+            android:name=".creat_budget"
+            android:exported="false" />
+        <activity
+            android:name=".home_page"
+            android:exported="false" />
+        <activity
+            android:name=".sign_in"
+            android:exported="false" />
+        <activity
+            android:name=".sign_up"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
