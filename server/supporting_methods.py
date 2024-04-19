@@ -91,8 +91,19 @@ while True:
         )
         """
 
+        create_budget_table="""CREATE TABLE IF NOT EXISTS budget (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT NOT NULL,
+            budget_amount DECIMAL(10, 2) NOT NULL,
+            budget_name VARCHAR(255) NOT NULL,
+            budget_type VARCHAR(255) NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES user(id)
+        )
+        """
+
         cursor.execute(create_user_table_query)
         cursor.execute(create_transaction_table_query)
+        cursor.execute(create_budget_table)
         connection.commit()
         print("Tables created successfully!")
 

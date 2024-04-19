@@ -10,15 +10,11 @@ from decimal import Decimal
 from datetime import datetime
 from supporting_methods import *
 from pydantic import BaseModel, ValidationError
+import uuid
+import matplotlib.pyplot as plt
 from constants import APP_HOST, APP_PORT
 
 app = Flask(__name__)
-
-
-
-
-
-
 
 
 @app.route('/', methods=['GET'])
@@ -52,13 +48,6 @@ def login():
         return jsonify({'token': token}), 200
     else:
         return jsonify({'error': 'Invalid username or password.'}), 401
-
-
-
-
-
-
-
 
 
 @app.route('/generate_gemini_content', methods=['POST'])
@@ -328,36 +317,72 @@ def transaction_analysis():
         user = get_user_by_username(username)
         
         if user:
-            transactions = get_user_transactions(user['id'])
-            graph_html = generate_transaction_graph(transactions)
+            conn = mysql.connector.connect(**db_config)
+            cursor = conn.cursor(dictionary=True)
 
-            return graph_html
+            # Transaction Analysis
+            cursor.execute('SELECT transaction_type, COUNT(*) as count FROM transaction WHERE user_id = %s GROUP BY transaction_type', (user['id'],))
+            transaction_counts = cursor.fetchall()
+
+            # Budget Analysis
+            cursor.execute('SELECT budget_type, SUM(budget_amount) as amount FROM budget WHERE user_id = %s GROUP BY budget_type', (user['id'],))
+            budget_counts = cursor.fetchall()
+            conn.close()
+
+
+            positive_count = 0
+            negative_count = 0
+            for tc in transaction_counts:
+                if tc['transaction_type'] == 1:
+                    positive_count = tc['count']
+                elif tc['transaction_type'] == -1:
+                    negative_count = tc['count']
+
+
+            total_transactions = positive_count + negative_count
+            positive_percentage = (positive_count / total_transactions) * 100 if total_transactions > 0 else 0
+            negative_percentage = (negative_count / total_transactions) * 100 if total_transactions > 0 else 0
+
+
+            labels_transactions = 'Positive Transactions', 'Negative Transactions'
+            sizes_transactions = [positive_percentage, negative_percentage]
+            fig1, ax1 = plt.subplots()
+            ax1.pie(sizes_transactions, labels=labels_transactions, autopct='%1.1f%%', startangle=90)
+            ax1.axis('equal')
+
+
+            transaction_file_name = f'transaction_analysis_{uuid.uuid4()}.png'
+            plt.savefig(f'./{transaction_file_name}')
+            plt.close(fig1)
+
+
+            budget_data = {}
+            for bc in budget_counts:
+                budget_data[bc['budget_type']] = bc['amount']
+
+            fig2, ax2 = plt.subplots()
+            ax2.pie(budget_data.values(), labels=budget_data.keys(), autopct='%1.1f%%', startangle=90)
+            ax2.axis('equal')
+
+
+            budget_file_name = f'budget_analysis_{uuid.uuid4()}.png'
+            plt.savefig(f'./{budget_file_name}')
+            plt.close(fig2)
+
+
+            return jsonify({
+                "transaction_image_location": f"{transaction_file_name}",
+                "budget_image_location": f"{budget_file_name}"
+            }), 200
         else:
             return jsonify({"error": "User not found."}), 404
     except jwt.ExpiredSignatureError:
         return jsonify({"error": "Expired token."}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({"error": "Invalid token."}), 401
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
-
-@app.route('/generate_gemini_finance_advice', methods=['POST'])
-def generate_gemini_finance_advice():
-    # Parse request data
-    data = request.json
-    prompt_text = data.get("prompt_text")
-
-    
-    if any(keyword in prompt_text.lower() for keyword in finance_keywords):
-        # API key for the Gemini model
-        api_key = "AIzaSyAyA2yr5nQv2QAdI1c6W1SMKyHZsYD3sxo"  # Replace with your actual API key
-
-        # Generate content using Gemini API
-        generated_text = generate_gemini_content(prompt_text, api_key)
-
-        if generated_text:
-            return jsonify({"finance_advice": generated_text})
-        else:
-            return jsonify({"error": "Failed to generate finance advice."}), 500
-    else:
-        return jsonify({"error": "Please provide a prompt related to money and finance."}), 400
 
 
 
