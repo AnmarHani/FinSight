@@ -76,7 +76,6 @@
                         android:id="@+id/hiUserName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Hi, Ahmed mawlabi"
                         android:textColor="@color/white"
                         android:textSize="28dp"
                         android:textStyle="bold"

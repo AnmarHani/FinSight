@@ -13,6 +13,11 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
 public class APIMethods {
+    public static String HOST = "192.168.3.6";
+    public static String PORT = "8123";
+    public static String CONNECTION_URL = "http://" + HOST + ":" + PORT;
+
+    public static String AUTHORIZATION_KEY = "";
     public static JSONObject get(String link) throws JSONException {
         FutureTask<String> futureTask = new FutureTask<>(new Callable<String>() {
             @Override
@@ -22,6 +27,7 @@ public class APIMethods {
                     URL url = new URL(link); // Your API endpoint
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
+                    if(!APIMethods.AUTHORIZATION_KEY.equals("")) connection.setRequestProperty("Authorization", "Bearer " + AUTHORIZATION_KEY);
 
                     // Read the response
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -34,7 +40,7 @@ public class APIMethods {
                     return response.toString();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    return "No Response";
+                    return "{\"error\":\"No Response\"}";
                 }
             }
         });
@@ -59,6 +65,8 @@ public class APIMethods {
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setDoOutput(true);
+                    connection.setRequestProperty("Content-Type", "application/json; utf-8");
+                    if(!APIMethods.AUTHORIZATION_KEY.equals("")) connection.setRequestProperty("Authorization", "Bearer " + AUTHORIZATION_KEY);
                     connection.getOutputStream().write(body.getBytes(StandardCharsets.UTF_8));
 
                     // Read the response
@@ -72,7 +80,7 @@ public class APIMethods {
                     return response.toString();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    return "No Response";
+                    return "{\"error\":\"No Response\"}";
                 }
             }
         });
@@ -97,6 +105,8 @@ public class APIMethods {
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("PUT");
                     connection.setDoOutput(true);
+                    connection.setRequestProperty("Content-Type", "application/json; utf-8");
+                    if(!APIMethods.AUTHORIZATION_KEY.equals("")) connection.setRequestProperty("Authorization", "Bearer " + AUTHORIZATION_KEY);
                     connection.getOutputStream().write(body.getBytes(StandardCharsets.UTF_8));
 
                     // Read the response
@@ -110,7 +120,7 @@ public class APIMethods {
                     return response.toString();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    return "No Response";
+                    return "{\"error\":\"No Response\"}";
                 }
             }
         });
@@ -134,7 +144,7 @@ public class APIMethods {
                     URL url = new URL(link); // Your API endpoint
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("DELETE");
-
+                    if(!APIMethods.AUTHORIZATION_KEY.equals("")) connection.setRequestProperty("Authorization", "Bearer " + AUTHORIZATION_KEY);
                     // Read the response
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                     String line;
@@ -146,7 +156,7 @@ public class APIMethods {
                     return response.toString();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    return "No Response";
+                    return "{\"error\":\"No Response\"}";
                 }
             }
         });

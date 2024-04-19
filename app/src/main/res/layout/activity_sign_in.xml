@@ -69,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/emailUser"
-                android:hint="Email or Username"
+                android:hint="Username"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
                 android:layout_marginTop="10dp"/>
