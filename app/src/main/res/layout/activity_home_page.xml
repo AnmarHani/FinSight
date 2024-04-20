@@ -182,35 +182,26 @@
                     android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/transaction_img"
-                        android:layout_width="100px"
-                        android:layout_height="100px"
-                        android:background="@color/white"
-                        app:shapeAppearanceOverlay="@style/circular"
-                        tools:layout_editor_absoluteX="0dp"
-                        tools:layout_editor_absoluteY="0dp"
-                        tools:ignore="MissingConstraints" />
-
                     <TextView
-                        android:id="@+id/transaction_name"
+                        android:id="@+id/transaction_name1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
                         android:paddingHorizontal="20dp"
                         android:text="Transaction"
                         android:textColor="#dbdbdb"
                         android:textSize="20dp"
-                        app:layout_constraintStart_toEndOf="@+id/transaction_img"
                         tools:ignore="MissingConstraints"
-                        tools:layout_editor_absoluteY="6dp" />
+                        tools:layout_editor_absoluteX="1dp"
+                        tools:layout_editor_absoluteY="8dp"
+                        android:maxLength="20"
+                        />
 
                     <TextView
                         android:id="@+id/transaction_amount1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="30dp"
-                        android:text="110000 SR"
+                        android:text="0 SR"
                         android:textColor="#32FC65"
                         android:textSize="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -223,40 +214,31 @@
                     android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/transaction_img2"
-                        android:layout_width="100px"
-                        android:layout_height="100px"
-                        android:background="@color/white"
-                        app:shapeAppearanceOverlay="@style/circular"
-                        tools:layout_editor_absoluteX="0dp"
-                        tools:layout_editor_absoluteY="0dp"
-                        tools:ignore="MissingConstraints" />
+                <TextView
+                    android:id="@+id/transaction_name2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="20dp"
+                    android:text="Transaction"
+                    android:textColor="#dbdbdb"
+                    android:textSize="20dp"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="-1dp"
+                    tools:layout_editor_absoluteY="5dp"
+                    android:maxLength="20"/>
 
-                    <TextView
-                        android:id="@+id/transaction_name2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:paddingHorizontal="20dp"
-                        android:text="Transaction"
-                        android:textColor="#dbdbdb"
-                        android:textSize="20dp"
-                        app:layout_constraintStart_toEndOf="@+id/transaction_img2"
-                        tools:ignore="MissingConstraints"
-                        tools:layout_editor_absoluteY="6dp" />
-
-                    <TextView
+                <TextView
                         android:id="@+id/transaction_amount2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="30dp"
-                        android:text="110000 SR"
+                        android:text="0 SR"
                         android:textColor="#32FC65"
                         android:textSize="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         tools:ignore="MissingConstraints"
-                        tools:layout_editor_absoluteY="10dp" />
+                        tools:layout_editor_absoluteY="10dp"
+                    />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
