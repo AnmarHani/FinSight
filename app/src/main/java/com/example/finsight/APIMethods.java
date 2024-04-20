@@ -28,7 +28,7 @@ public class APIMethods {
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
                     if(!APIMethods.AUTHORIZATION_KEY.equals("")) connection.setRequestProperty("Authorization", "Bearer " + AUTHORIZATION_KEY);
-
+                    System.out.println("KEY: " +connection.getRequestProperty("Authorization"));
                     // Read the response
                     BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                     String line;

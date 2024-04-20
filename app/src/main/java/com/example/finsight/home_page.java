@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,9 +29,14 @@ public class home_page extends AppCompatActivity {
         
         // Setup Views Here
 
-        fetchAndDisplayCurrentBalance();
-        fetchAndDisplayUserBudgets();
-        fetchAndDisplayUserTransactions();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fetchAndDisplayCurrentBalance();
+                fetchAndDisplayUserBudgets();
+                fetchAndDisplayUserTransactions();
+            }
+        }, 2000); // Delay of 2 seconds (2000 milliseconds)
 
         Intent intent = getIntent();
         String username = intent.getStringExtra("username");
@@ -88,9 +95,21 @@ public class home_page extends AppCompatActivity {
         try {
             JSONObject response = APIMethods.get(APIMethods.CONNECTION_URL + "/user_transactions");
             if (response.has("result")) {
-                String transactions = response.getString("result"); // I am not sure it is a stirng, it is an array. Please check out how to deal with JSON Arrays? or Print it?
-                // Get View and Set Transactions Here as A List View or whatever but limit them to 3
+                JSONArray transactions = response.getJSONArray("result"); // Get the array
+                for (int i = 0; i < transactions.length(); i++) {
+                    JSONObject transaction = transactions.getJSONObject(i); // Get each transaction as a JSONObject
+                    // Now you can access the fields of each transaction
+                    int transactionId = transaction.getInt("transaction_id");
+                    double amount = transaction.getDouble("amount");
+                    String transactionDate = transaction.getString("transaction_date");
+                    String description = transaction.getString("description");
+                    int transactionType = transaction.getInt("transaction_type");
 
+                    System.out.println(transactionId + " " + amount + " " + transactionDate + " " + description + " " + transactionType);
+
+                    // You can now use these values to update your UI
+                    // For example, add them to a ListView
+                }
             } else if (response.has("error")) {
                 // Handle error
                 String error = response.getString("error");

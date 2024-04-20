@@ -151,16 +151,19 @@ def add_transaction():
 @app.route('/user_transactions', methods=['GET'])
 def get_user_transactions():
     jwt_token = request.headers.get('Authorization')
-    
+
     if not jwt_token:
         return jsonify({"error": "JWT token is missing."}), 400
     
     if jwt_token.startswith('Bearer '):
         jwt_token = jwt_token[7:]
-    
+
+
     try:
         decoded_token = jwt.decode(jwt_token, SECRET_KEY, algorithms=['HS256'])
+
         username = decoded_token.get('username')
+
     except jwt.InvalidTokenError:
         return jsonify({"error": "Invalid JWT token."}), 400
 
@@ -169,13 +172,16 @@ def get_user_transactions():
         cursor = connection.cursor(dictionary=True)
 
         query = """
-        SELECT t.transaction_id, t.amount, t.transaction_date, t.description, t.transaction_type
+        SELECT t.id AS transaction_id, t.amount, t.transaction_date, t.description, t.transaction_type
         FROM user u
         JOIN transaction t ON u.id = t.user_id
         WHERE u.username = %s
         """
         cursor.execute(query, (username,))
+
         user_transactions = cursor.fetchall()
+
+        print(user_transactions)
 
         cursor.close()
         connection.close()

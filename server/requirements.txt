@@ -1,8 +1,9 @@
 Flask==2.1.2
-requests==2.27.1
+requests~=2.31.0
 mysql-connector-python==8.0.28
 pydantic==1.9.0
 bcrypt==3.2.0
 python-jose[cryptography]==3.3.0
 matplotlib==3.8.4
 Werkzeug==2.2.2
+plotly~=5.20.0
