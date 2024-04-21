@@ -154,6 +154,8 @@ public class home_page extends AppCompatActivity {
                 String currentBalance = response.getString("current_balance"); // Not sure if its String, maybe double
                                                                                // or Integer?
                 // Get View and Set Current Balance Here
+                TextView currentBalanceTextView = findViewById(R.id.balance);
+                currentBalanceTextView.setText(currentBalance + " SR");
 
             } else if (response.has("error")) {
                 // Handle error

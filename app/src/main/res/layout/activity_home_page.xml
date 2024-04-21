@@ -114,18 +114,15 @@
                         android:id="@+id/balance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="10000"
+                        android:text="XX.X SR"
 
                         android:textColor="#dbdbdb"
                         android:textSize="20dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintHorizontal_bias="0.463"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:layout_editor_absoluteY="0dp" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/dollar_sign"
-                        app:layout_constraintEnd_toStartOf="@+id/balance" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>

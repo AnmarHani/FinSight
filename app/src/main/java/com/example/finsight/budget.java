@@ -1,6 +1,5 @@
 package com.example.finsight;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,6 +9,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class budget extends AppCompatActivity {
 
@@ -22,6 +24,8 @@ public class budget extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_budget);
 
+        fetchBudget();
+
         newBudgetButton = findViewById(R.id.newBudgetBtn);
         newprofileButton = findViewById(R.id.profileBtn);
 
@@ -31,7 +35,7 @@ public class budget extends AppCompatActivity {
 
             int itemId = item.getItemId();
 
-            if (itemId == R.id.bottom_home){
+            if (itemId == R.id.bottom_home) {
                 startActivity(new Intent(getApplicationContext(), home_page.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
@@ -39,18 +43,16 @@ public class budget extends AppCompatActivity {
                 return true;
             }
 
-            else if (itemId == R.id.bottom_transaction){
+            else if (itemId == R.id.bottom_transaction) {
                 startActivity(new Intent(getApplicationContext(), transactions.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
 
                 return true;
-            }
-            else if (itemId == R.id.bottom_budget){
+            } else if (itemId == R.id.bottom_budget) {
 
                 return true;
-            }
-            else if (itemId == R.id.bottom_insight){
+            } else if (itemId == R.id.bottom_insight) {
                 startActivity(new Intent(getApplicationContext(), insights.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
@@ -77,5 +79,23 @@ public class budget extends AppCompatActivity {
             }
         });
 
+    }
+
+    // Call budget API
+    private void fetchBudget() {
+        JSONObject response = null;
+        try {
+            System.out.println("EEEEEEEEEEEEEEEEE*WAU(*DUWA(*DU(*WU(*DWUA))))");
+            response = APIMethods.get(APIMethods.CONNECTION_URL + "/users_budgets");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        // Display the budget
+        if (response.has("result")) {
+            // Display the budget
+            System.out.println(response.toString() + "Budget");
+        } else if (response.has("error")) {
+            // Handle error
+        }
     }
 }

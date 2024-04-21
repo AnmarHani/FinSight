@@ -109,14 +109,13 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:text="Your Budget"
                             android:textColor="@color/white"
                             android:textSize="28dp"
-
+                            android:id="@+id/yourBudget"
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="parent"
                             tools:ignore="MissingConstraints"
@@ -164,6 +163,7 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginLeft="5dp"
                         android:text="xxxx"
+                        android:id="@+id/budgetLeft"
                         android:textColor="#32FC65"
                         android:textSize="20dp"
 
