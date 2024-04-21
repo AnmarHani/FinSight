@@ -18,6 +18,8 @@ from constants import APP_HOST, APP_PORT
 
 app = Flask(__name__)
 
+last_transactions = []
+budgets = []
 
 @app.route('/', methods=['GET'])
 def root():
@@ -73,13 +75,8 @@ def generate_gemini_content_route():
     
         prompt_text = f"""
         I am a user with a monthly income of {user['monthly_income']} and a current balance of {user['current_balance']}.
-        My primary financial goal is to save money, aiming for both short-term gains and long-term financial security. 
-        I am interested in strategies for increasing my savings, managing expenses efficiently, and investing wisely with a focus on fault tolerance to match my goal.
-        Please provide a detailed financial plan that includes:
-        1. Strategies for allocating my current balance across different categories, emphasizing savings.
-        2. A budget plan for my monthly income, with recommendations on spending, saving, and investing portions.
-        3. Advice on managing expenses and recommendations for investment platforms or products that offer good fault tolerance.
-        4. Any additional financial steps I should consider to improve my financial health and resilience against unforeseen financial challenges.
+        My List of transactions to my account {str(last_transactions)}. Also, my budgets that I did are {str(budgets)}. NOTE: [IF EMPTY LISTS PLEASE IGNORE].
+        Give me (Personalised based on my numbers) suggestions and different strategies to increase my income, save money, and any financial improvement and management in general.
         """
     
     except jwt.ExpiredSignatureError:
@@ -152,6 +149,8 @@ def add_transaction():
 
 @app.route('/user_transactions', methods=['GET'])
 def get_user_transactions():
+    global last_transactions
+
     jwt_token = request.headers.get('Authorization')
 
     if not jwt_token:
@@ -183,7 +182,7 @@ def get_user_transactions():
 
         user_transactions = cursor.fetchall()
 
-        print(user_transactions)
+        last_transactions = user_transactions
 
         cursor.close()
         connection.close()
@@ -304,6 +303,8 @@ def update_user():
 
 @app.route('/users_budgets', methods=['GET'])
 def get_users_budgets():
+    global budgets
+
     jwt_token = request.headers.get('Authorization')
     
     if not jwt_token:
@@ -330,6 +331,7 @@ def get_users_budgets():
         """
         cursor.execute(query, (username,))
         user_budgets = cursor.fetchall()
+        budgets = user_budgets
 
         cursor.close()
         connection.close()
@@ -447,9 +449,6 @@ def transaction_analysis():
         return jsonify({"error": "Invalid token."}), 401
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-
-
 
 
 if __name__ == "__main__":

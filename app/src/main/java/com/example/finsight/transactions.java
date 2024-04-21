@@ -6,9 +6,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class transactions extends AppCompatActivity {
 
@@ -19,6 +29,18 @@ public class transactions extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transactions);
 
+        // Create a list of items
+        ArrayList<String> itemList = new ArrayList<String>();
+
+        fetchAndDisplayUserTransactions(itemList);
+
+        // Create an ArrayAdapter
+        ArrayAdapter<String> itemsAdapter =
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, itemList);
+
+        // Connect the adapter to a ListView
+        ListView listView = (ListView) findViewById(R.id.transactionsList);
+        listView.setAdapter(itemsAdapter);
 
         newprofileButton = findViewById(R.id.profileBtn);
 
@@ -57,6 +79,9 @@ public class transactions extends AppCompatActivity {
         });
 
 
+
+
+
         newprofileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,5 +92,31 @@ public class transactions extends AppCompatActivity {
         });
 
 
+    }
+
+    private void fetchAndDisplayUserTransactions(ArrayList<String> list) {
+        try {
+            JSONObject response = APIMethods.get(APIMethods.CONNECTION_URL + "/user_transactions");
+            if (response.has("result")) {
+                JSONArray transactions = response.getJSONArray("result"); // Get the array
+                for (int i = transactions.length() - 1; i >= 0; i--) {
+                    JSONObject transaction = transactions.getJSONObject(i); // Get each transaction as a JSONObject
+
+                    // Now you can access the fields of each transaction
+                    double amount = transaction.getDouble("amount");
+                    String description = transaction.getString("description");
+
+                    list.add(description + ": " + String.valueOf(amount));
+
+                }
+
+            } else if (response.has("error")) {
+                // Handle error
+                String error = response.getString("error");
+                Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
