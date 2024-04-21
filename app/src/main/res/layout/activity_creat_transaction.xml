@@ -72,7 +72,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create your budget"
+                android:text="Add Transaction"
                 android:textColor="#dbdbdb"
                 android:textSize="30dp"
                 android:textStyle="bold"
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_marginTop="25dp"
-                android:text="Set the maximum you would like to spend each week or month , Type in the amount below"
+                android:text="If you did any transactions add it here."
                 android:textColor="#dbdbdb"
                 android:textSize="15dp"
                 />
@@ -93,7 +93,7 @@
                 android:layout_width="335dp"
                 android:layout_height="61dp"
                 android:layout_marginTop="30dp"
-                android:hint="Name of budget"
+                android:hint="Amount"
                 android:padding="16dp"
                 android:background="@drawable/edittext"
                 android:id="@+id/budget_name"
@@ -110,7 +110,7 @@
                 app:boxCornerRadiusTopEnd="24dp"
                 app:boxCornerRadiusTopStart="24dp"
 
-                android:hint="Type of budget"
+                android:hint="Type of Transaction"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 >
                 <AutoCompleteTextView
@@ -126,7 +126,7 @@
             <EditText
                 android:layout_width="335dp"
                 android:layout_height="61dp"
-                android:hint="Set budget amount"
+                android:hint="Transaction Description"
                 android:inputType="number"
                 android:padding="16dp"
                 android:background="@drawable/edittext"
