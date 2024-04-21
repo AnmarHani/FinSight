@@ -49,8 +49,8 @@ public class sign_in extends AppCompatActivity {
                         // Login successful, Save token, navigate to the next activity
                         APIMethods.AUTHORIZATION_KEY = response.getString("token");
                         Intent intent = new Intent(sign_in.this, home_page.class);
-                        intent.putExtra("username", emailUser);
                         startActivity(intent);
+                        APIMethods.username = emailUser;
                         finish(); // Prevents going back to the sign-in activity
                     } else if (response.has("error")) {
                         // Handle error

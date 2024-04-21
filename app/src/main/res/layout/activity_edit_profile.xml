@@ -60,7 +60,8 @@
             android:layout_margin="16dp"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="3dp" />
+            tools:layout_editor_absoluteY="3dp"
+            />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -96,20 +97,6 @@
                         tools:ignore="MissingConstraints"
                         tools:layout_editor_absoluteY="12dp" />
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/floatingActionButton5"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginBottom="4dp"
-                        android:backgroundTint="#102DCF"
-                        android:foreground="@drawable/edit"
-                        android:foregroundGravity="center"
-                        android:clickable="true"
-
-                        app:layout_constraintBottom_toBottomOf="@+id/userImg"
-                        app:layout_constraintEnd_toEndOf="@+id/userImg" />
-
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -131,16 +118,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         tools:ignore="MissingConstraints" />
 
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:background="@drawable/edit"
-                        android:id="@+id/editUserName"
-                        app:layout_constraintStart_toEndOf="@+id/username"
-                        tools:layout_editor_absoluteY="7dp"
-                        tools:ignore="MissingConstraints" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -150,6 +127,63 @@
         </androidx.cardview.widget.CardView>
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/currentBalance"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#FFFFFF"
+                android:drawableTint="#FFFFFF"
+                android:hint="Edit Current Balance"
+                android:textColor="@color/white"
+                android:textColorHighlight="@color/white"
+                android:textColorHint="#BDBDBD"
+                />
+
+            <Button
+                android:id="@+id/currentBalanceBtn"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/btn"
+                android:text="Confirm"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/income"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#FFFFFF"
+                android:drawableTint="#FFFFFF"
+                android:hint="Edit Income"
+                android:textColor="@color/white"
+                android:textColorHighlight="@color/white"
+                android:textColorHint="#BDBDBD"
+                />
+
+            <Button
+                android:id="@+id/incomeBtn"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/btn"
+                android:text="Confirm"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
 
     </LinearLayout>

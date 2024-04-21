@@ -6,9 +6,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".insights"
-    android:background="@drawable/background"
-
-    >
+    android:background="@drawable/background">
 
 <LinearLayout
     android:id="@+id/linearLayout"
@@ -21,10 +19,7 @@ tools:context=".insights"
         android:id="@+id/logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-
-
-        >
+        android:layout_marginTop="20dp">
 
         <ImageView
             android:id="@+id/logoimage"
@@ -52,9 +47,64 @@ tools:context=".insights"
             android:src="@drawable/account_icon" />
     </LinearLayout>
 
-.
 
 
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Transactions Analysis"
+            android:textSize="25dp"
+            android:textColor="@color/white"
+            />
+
+        <ImageView
+            android:id="@+id/transactionImageView"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:contentDescription="Transaction Analysis Image"
+            android:src="@drawable/transaction_analysis" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Budgets Analysis"
+            android:textSize="25dp"
+            android:textColor="@color/white"
+            />
+        <ImageView
+            android:id="@+id/budgetImageView"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:contentDescription="Budgets Analysis Image"
+            android:src="@drawable/budget_analysis" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AI Suggestions:"
+            android:textSize="25dp"
+            android:textColor="@color/white"
+
+            />
+
+        <TextView
+            android:id="@+id/suggestionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loading AI Suggestion..."
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:layout_marginBottom="150dp"
+            />
+    </LinearLayout>
+</ScrollView>
 
 
 

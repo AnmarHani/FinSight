@@ -26,21 +26,12 @@ public class home_page extends AppCompatActivity {
         setContentView(R.layout.activity_home_page);
 
         // Setup Views Here
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                fetchAndDisplayCurrentBalance();
-                fetchAndDisplayUserBudgets();
-                fetchAndDisplayUserTransactions();
-            }
-        }, 2000); // Delay of 2 seconds (2000 milliseconds)
-
-        Intent intent = getIntent();
-        String username = intent.getStringExtra("username");
+        fetchAndDisplayCurrentBalance();
+        fetchAndDisplayUserBudgets();
+        fetchAndDisplayUserTransactions();
 
         TextView usernameText = (TextView) findViewById(R.id.hiUserName);
-        usernameText.setText("Hi, " + username);
+        usernameText.setText("Hi, " + APIMethods.username);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_home);

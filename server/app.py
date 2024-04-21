@@ -11,6 +11,8 @@ from datetime import datetime
 from supporting_methods import *
 from pydantic import BaseModel, ValidationError
 import uuid
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from constants import APP_HOST, APP_PORT
 
@@ -50,7 +52,7 @@ def login():
         return jsonify({'error': 'Invalid username or password.'}), 401
 
 
-@app.route('/generate_gemini_content', methods=['POST'])
+@app.route('/generate_gemini_content', methods=['GET'])
 def generate_gemini_content_route():
     jwt_token = request.headers.get('Authorization')
     
@@ -88,10 +90,10 @@ def generate_gemini_content_route():
     api_key = "AIzaSyAyA2yr5nQv2QAdI1c6W1SMKyHZsYD3sxo"  
     try:
         generated_text = generate_gemini_content(prompt_text, api_key)
+        return jsonify({"generated_text": generated_text})
     except Exception as e:
         return jsonify({"error": "Failed to generate content.", "details": str(e)}), 500
-    
-    return jsonify({"generated_text": generated_text})
+
 
 @app.route('/add_transaction', methods=['POST'])
 def add_transaction():
@@ -241,7 +243,65 @@ def create_budget():
         return jsonify({"message": "Budget created successfully."}), 201
     except mysql.connector.Error as err:
         return jsonify({"error": str(err)}), 500
-    
+
+@app.route('/update_user', methods=['PUT'])
+def update_user():
+    jwt_token = request.headers.get('Authorization')
+    if not jwt_token:
+        return jsonify({"error": "JWT token is missing."}), 400
+
+    if jwt_token.startswith('Bearer '):
+        jwt_token = jwt_token[7:]
+
+    try:
+        decoded_token = jwt.decode(jwt_token, SECRET_KEY, algorithms=['HS256'])
+        username = decoded_token.get('username')
+    except jwt.ExpiredSignatureError:
+        return jsonify({"error": "Expired token."}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({"error": "Invalid token."}), 401
+
+    user_id = get_user_id_by_username(username)
+    if not user_id:
+        return jsonify({"error": "User not found."}), 404
+
+    request_data = request.json
+    current_balance = request_data.get('current_balance')
+    monthly_income = request_data.get('monthly_income')
+
+    try:
+        # Connect to the database
+        connection = mysql.connector.connect(**db_config)
+        cursor = connection.cursor()
+
+        update_query = "UPDATE user SET "
+        update_values = []
+        if current_balance is not None:
+            update_query += "current_balance = %s, "
+            update_values.append(float(current_balance))
+
+        if monthly_income is not None:
+            update_query += "monthly_income = %s, "
+            update_values.append(float(monthly_income))
+        # Remove trailing comma and space
+        update_query = update_query[:-2]
+        update_query += " WHERE id = %s"
+        update_values.append(int(user_id))
+
+        print(update_query , update_values) # UPDATE users SET current_balance = %s WHERE id = %s [1.0, 3]
+
+        cursor.execute(update_query, tuple(update_values))
+        connection.commit()
+
+        cursor.close()
+        connection.close()
+
+        return jsonify({"message": "User updated successfully."}), 200
+    except mysql.connector.Error as err:
+        print(err)
+        return jsonify({"error": str(err)}), 500
+
+
 @app.route('/users_budgets', methods=['GET'])
 def get_users_budgets():
     jwt_token = request.headers.get('Authorization')
@@ -357,8 +417,8 @@ def transaction_analysis():
             ax1.axis('equal')
 
 
-            transaction_file_name = f'transaction_analysis_{uuid.uuid4()}.png'
-            plt.savefig(f'./{transaction_file_name}')
+            transaction_file_name = f'transaction_analysis.png'
+            plt.savefig(f'../app/src/main/res/drawable/{transaction_file_name}')
             plt.close(fig1)
 
 
@@ -371,14 +431,13 @@ def transaction_analysis():
             ax2.axis('equal')
 
 
-            budget_file_name = f'budget_analysis_{uuid.uuid4()}.png'
-            plt.savefig(f'./{budget_file_name}')
+            budget_file_name = f'budget_analysis.png'
+            plt.savefig(f'../app/src/main/res/drawable/{budget_file_name}')
             plt.close(fig2)
 
 
             return jsonify({
-                "transaction_image_location": f"{transaction_file_name}",
-                "budget_image_location": f"{budget_file_name}"
+                "message": "Successfully Made Analysis!"
             }), 200
         else:
             return jsonify({"error": "User not found."}), 404

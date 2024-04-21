@@ -17,6 +17,8 @@ public class APIMethods {
     public static String PORT = "8123";
     public static String CONNECTION_URL = "http://" + HOST + ":" + PORT;
 
+    public static String username = "Unknown";
+
     public static String AUTHORIZATION_KEY = "";
     public static JSONObject get(String link) throws JSONException {
         FutureTask<String> futureTask = new FutureTask<>(new Callable<String>() {
