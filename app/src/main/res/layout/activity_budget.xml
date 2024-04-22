@@ -73,6 +73,7 @@
                 android:layout_marginTop="30dp"
                 android:backgroundTint="@color/btn"
                 android:text="Create new budget"
+                android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold"
 

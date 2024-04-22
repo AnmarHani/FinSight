@@ -6,5 +6,7 @@
     <color name="btn">#2C14DD</color>
     <color name="btmBar">#2B2D30</color>
     <color name="yellow">#FCCF32</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#00FF00</color>
 
 </resources>

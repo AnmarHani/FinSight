@@ -94,6 +94,8 @@
                 android:layout_height="61dp"
                 android:layout_marginTop="30dp"
                 android:hint="Name of budget"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
                 android:padding="16dp"
                 android:background="@drawable/edittext"
                 android:id="@+id/budget_name"
@@ -109,7 +111,7 @@
                 app:boxCornerRadiusBottomStart="24dp"
                 app:boxCornerRadiusTopEnd="24dp"
                 app:boxCornerRadiusTopStart="24dp"
-
+                android:textColorHint="@color/black"
                 android:hint="Type of budget"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 >
@@ -117,6 +119,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="none"
+                    android:textColor="@color/black"
                     android:id="@+id/typeBudget"
 
                     >
@@ -127,6 +130,8 @@
                 android:layout_width="335dp"
                 android:layout_height="61dp"
                 android:hint="Set budget amount"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
                 android:inputType="number"
                 android:padding="16dp"
                 android:background="@drawable/edittext"
@@ -138,6 +143,7 @@
                 android:layout_height="60dp"
                 android:id="@+id/continuetBtn"
                 android:text="Continue"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="20dp"
                 android:layout_marginTop="30dp"

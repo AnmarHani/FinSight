@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:text="Get Started"
         android:backgroundTint="@color/btn"
+        android:textColor="@color/white"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:id="@+id/getStartedBtn" />

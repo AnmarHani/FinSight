@@ -15,9 +15,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 public class home_page extends AppCompatActivity {
 
+    private ImageButton transactionButton;
+    private ImageButton budgetButton;
     private ImageButton newprofileButton;
 
     @Override
@@ -75,6 +78,26 @@ public class home_page extends AppCompatActivity {
             }
         });
 
+        transactionButton = (ImageButton) findViewById(R.id.transactionButton);
+        transactionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open the sign-up activity
+                Intent intent = new Intent(home_page.this, transactions.class);
+                startActivity(intent);
+            }
+        });
+
+        budgetButton = (ImageButton) findViewById(R.id.budgetButton);
+        budgetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open the sign-up activity
+                Intent intent = new Intent(home_page.this, budget.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void fetchAndDisplayUserTransactions() {
@@ -104,6 +127,12 @@ public class home_page extends AppCompatActivity {
                         int transactionAmountId = getResources().getIdentifier(
                                 "transaction_amount" + transactionsTextFieldCount, "id", getPackageName());
                         TextView transaction_amount = findViewById(transactionAmountId);
+                        if (transaction.getInt("transaction_type") == 1) {
+                            transaction_amount.setTextColor(getResources().getColor(R.color.green));
+                        } else {
+                            transaction_amount.setTextColor(getResources().getColor(R.color.red));
+                            amount = -amount;
+                        }
                         transaction_amount.setText(amount + " SR");
                         transactionsTextFieldCount++;
                     }
@@ -123,11 +152,17 @@ public class home_page extends AppCompatActivity {
         try {
             JSONObject response = APIMethods.get(APIMethods.CONNECTION_URL + "/users_budgets");
             if (response.has("result")) {
-                String budgets = response.getString("result");// I am not sure it is a stirng, it is an array. Please
-                                                              // check out how to deal with JSON Arrays? or Print it?
-                // Get View and Set Budgets Here as A List View or whatever but limit them to 3
-                // The same this method, use it when clicked on
+                JSONArray budgets = response.getJSONArray("result"); // Get the array
+                System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                System.out.println(budgets);
+                JSONObject budget = budgets.getJSONObject(budgets.length() - 1);
 
+                String jsonBudgetName = budget.getString("budget_name");
+                TextView budgetName = findViewById(R.id.budgetName);
+                budgetName.setText(jsonBudgetName);
+                String jsonBudgetAmount = budget.getString("budget_amount");
+                TextView budgetAmount = findViewById(R.id.budgetAmount);
+                budgetAmount.setText(jsonBudgetAmount + " SR");
             } else if (response.has("error")) {
                 // Handle error
                 String error = response.getString("error");
@@ -142,8 +177,8 @@ public class home_page extends AppCompatActivity {
         try {
             JSONObject response = APIMethods.get(APIMethods.CONNECTION_URL + "/current_balance");
             if (response.has("current_balance")) {
-                String currentBalance = response.getString("current_balance"); // Not sure if its String, maybe double
-                                                                               // or Integer?
+                String currentBalance = response.getString("current_balance");
+
                 // Get View and Set Current Balance Here
                 TextView currentBalanceTextView = findViewById(R.id.balance);
                 currentBalanceTextView.setText(currentBalance + " SR");

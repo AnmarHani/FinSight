@@ -1,12 +1,12 @@
 package com.example.finsight;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 public class transactions extends AppCompatActivity {
 
+    private Button newTransactionButton;
     private ImageButton newprofileButton;
 
     @Override
@@ -35,13 +36,14 @@ public class transactions extends AppCompatActivity {
         fetchAndDisplayUserTransactions(itemList);
 
         // Create an ArrayAdapter
-        ArrayAdapter<String> itemsAdapter =
-                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, itemList);
+        ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
+                itemList);
 
         // Connect the adapter to a ListView
         ListView listView = (ListView) findViewById(R.id.transactionsList);
         listView.setAdapter(itemsAdapter);
 
+        newTransactionButton = findViewById(R.id.newTransactionBtn);
         newprofileButton = findViewById(R.id.profileBtn);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -50,7 +52,7 @@ public class transactions extends AppCompatActivity {
 
             int itemId = item.getItemId();
 
-            if (itemId == R.id.bottom_home){
+            if (itemId == R.id.bottom_home) {
                 startActivity(new Intent(getApplicationContext(), home_page.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
@@ -58,18 +60,16 @@ public class transactions extends AppCompatActivity {
                 return true;
             }
 
-            else if (itemId == R.id.bottom_transaction){
+            else if (itemId == R.id.bottom_transaction) {
 
                 return true;
-            }
-            else if (itemId == R.id.bottom_budget){
+            } else if (itemId == R.id.bottom_budget) {
                 startActivity(new Intent(getApplicationContext(), budget.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
 
                 return true;
-            }
-            else if (itemId == R.id.bottom_insight){
+            } else if (itemId == R.id.bottom_insight) {
                 startActivity(new Intent(getApplicationContext(), insights.class));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
@@ -78,9 +78,14 @@ public class transactions extends AppCompatActivity {
             return false;
         });
 
-
-
-
+        newTransactionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open the new transaction activity
+                Intent intent = new Intent(transactions.this, creat_transaction.class);
+                startActivity(intent);
+            }
+        });
 
         newprofileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +96,6 @@ public class transactions extends AppCompatActivity {
             }
         });
 
-
     }
 
     private void fetchAndDisplayUserTransactions(ArrayList<String> list) {
@@ -101,13 +105,15 @@ public class transactions extends AppCompatActivity {
                 JSONArray transactions = response.getJSONArray("result"); // Get the array
                 for (int i = transactions.length() - 1; i >= 0; i--) {
                     JSONObject transaction = transactions.getJSONObject(i); // Get each transaction as a JSONObject
-
                     // Now you can access the fields of each transaction
                     double amount = transaction.getDouble("amount");
                     String description = transaction.getString("description");
 
-                    list.add(description + ": " + String.valueOf(amount));
-
+                    if (transaction.getInt("transaction_type") == 1) {
+                        list.add(description + ": " + String.valueOf(amount) + " SR");
+                    } else {
+                        list.add(description + ": -" + String.valueOf(amount) + " SR");
+                    }
                 }
 
             } else if (response.has("error")) {

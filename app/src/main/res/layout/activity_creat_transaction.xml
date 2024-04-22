@@ -94,9 +94,12 @@
                 android:layout_height="61dp"
                 android:layout_marginTop="30dp"
                 android:hint="Amount"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:inputType="numberDecimal"
                 android:padding="16dp"
                 android:background="@drawable/edittext"
-                android:id="@+id/budget_name"
+                android:id="@+id/transactionAmount"
 
                 />
 
@@ -111,15 +114,16 @@
                 app:boxCornerRadiusTopStart="24dp"
 
                 android:hint="Type of Transaction"
+                android:textColorHint="@color/black"
+                android:textColor="@color/black"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 >
                 <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="none"
-                    android:id="@+id/typeBudget"
-
-                    >
+                    android:textColor="@color/black"
+                    android:id="@+id/typeTransaction">
                 </AutoCompleteTextView>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -127,10 +131,11 @@
                 android:layout_width="335dp"
                 android:layout_height="61dp"
                 android:hint="Transaction Description"
-                android:inputType="number"
+                android:textColorHint="@color/black"
+                android:textColor="@color/black"
                 android:padding="16dp"
                 android:background="@drawable/edittext"
-                android:id="@+id/budgetAmount"
+                android:id="@+id/transactionDescription"
                 />
 
             <Button
@@ -138,6 +143,7 @@
                 android:layout_height="60dp"
                 android:id="@+id/continuetBtn"
                 android:text="Continue"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="20dp"
                 android:layout_marginTop="30dp"
