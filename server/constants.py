@@ -1,4 +1,4 @@
-APP_PORT = 8123
+APP_PORT = 8125
 APP_HOST = "0.0.0.0"
 
 DB_HOST = "localhost"

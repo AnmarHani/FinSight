@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +24,8 @@ public class home_page extends AppCompatActivity {
     private ImageButton transactionButton;
     private ImageButton budgetButton;
     private ImageButton newprofileButton;
+
+    private boolean FIRST_TIME = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +109,9 @@ public class home_page extends AppCompatActivity {
             JSONObject response = APIMethods.get(APIMethods.CONNECTION_URL + "/user_transactions");
             if (response.has("result")) {
                 JSONArray transactions = response.getJSONArray("result"); // Get the array
+
+                if(transactions.length() > 0 && FIRST_TIME) recursiveDelayedTransactions();
+
                 int transactionsTextFieldCount = 1;
                 for (int i = transactions.length() - 1; i >= 0; i--) {
                     JSONObject transaction = transactions.getJSONObject(i); // Get each transaction as a JSONObject
@@ -191,5 +198,91 @@ public class home_page extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void recursiveDelayedTransactions(){
+        JSONObject incomeBody = new JSONObject();
+        final int INCOME_AMOUNT = 10_000;
+        final String INCOME_DESCRIPTION = "Income";
+        final int INCOME_TYPE = 1;
+
+        JSONObject rentBody = new JSONObject();
+        final int RENT_AMOUNT = 1000;
+        final String RENT_DESCRIPTION = "Rent";
+        final int RENT_TYPE = -1;
+
+        try {
+            incomeBody.put("amount", INCOME_AMOUNT);
+            incomeBody.put("description", INCOME_DESCRIPTION);
+            incomeBody.put("transaction_type", INCOME_TYPE);
+
+            rentBody.put("amount", RENT_AMOUNT);
+            rentBody.put("description", RENT_DESCRIPTION);
+            rentBody.put("transaction_type", RENT_TYPE);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        final Handler handler = new Handler();
+        final Handler secondHandler = new Handler();
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Do something after 5 seconds (5000 milliseconds)
+
+                try {
+                    JSONObject response = APIMethods.post(APIMethods.CONNECTION_URL + "/add_transaction",
+                            incomeBody.toString());
+
+
+                    if (response.has("message")) {
+                        // Budget created successfully
+                        Toast.makeText(home_page.this, "Successfully Added Income", Toast.LENGTH_SHORT)
+                                .show();
+                        fetchAndDisplayCurrentBalance();
+
+                        secondHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Do something after 5 seconds (5000 milliseconds)
+
+                                try {
+                                    JSONObject secondResponse = APIMethods.post(APIMethods.CONNECTION_URL + "/add_transaction",
+                                            rentBody.toString());
+
+                                    if (secondResponse.has("message")) {
+                                        // Budget created successfully
+                                        Toast.makeText(home_page.this, "Successfully Pulled Rent Amount", Toast.LENGTH_SHORT)
+                                                .show();
+                                        fetchAndDisplayCurrentBalance();
+                                    } else if (response.has("error")) {
+                                        // Handle error
+                                        String error = response.getString("error");
+                                        Toast.makeText(home_page.this, error, Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, 15000); // 15000 milliseconds = 15 seconds = beforeDelay + thisDelay = 30 seconds
+                    } else if (response.has("error")) {
+                        // Handle error
+                        String error = response.getString("error");
+                        Toast.makeText(home_page.this, error, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                recursiveDelayedTransactions();
+                FIRST_TIME = false;
+                fetchAndDisplayUserTransactions();
+            }
+        }, 15000); // 15000 milliseconds = 15 seconds
+
+
+
     }
 }

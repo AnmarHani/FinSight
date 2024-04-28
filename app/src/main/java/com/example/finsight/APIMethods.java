@@ -14,7 +14,7 @@ import java.util.concurrent.FutureTask;
 
 public class APIMethods {
     public static String HOST = "192.168.3.6";
-    public static String PORT = "8123";
+    public static String PORT = "8125";
     public static String CONNECTION_URL = "http://" + HOST + ":" + PORT;
 
     public static String username = "Unknown";
